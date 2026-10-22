@@ -46,7 +46,6 @@ public class GhostPlatform : MonoBehaviour
         AddEdge(points, topLeft, bottomLeft);
         points.Add(bounds.center);
 
-        samplePoints = points.ToArray();
         return points.ToArray();
     }
 
