@@ -7,6 +7,7 @@ public class Lantern : MonoBehaviour
 {
     private Light2D light2D;
     private Camera cam;
+    private LanternBattery battery;
 
     // Ghost platforms will read these next step.
     public bool IsOn => light2D.enabled;
@@ -19,6 +20,7 @@ public class Lantern : MonoBehaviour
     {
         light2D = GetComponent<Light2D>();
         cam = Camera.main;
+        battery = GetComponent<LanternBattery>();
     }
 
     private void Update()
@@ -27,11 +29,16 @@ public class Lantern : MonoBehaviour
         if (mouse == null) return;
 
         Aim(mouse);
-        if(mouse.rightButton.wasPressedThisFrame)
+        if (mouse.rightButton.wasPressedThisFrame)
         {
-            light2D.enabled = !light2D.enabled;
+            bool wantsOn = !light2D.enabled;
+            // A dead battery keeps the lantern off until a candle refills it.
+            if (wantsOn && battery != null && battery.IsEmpty) return;
+            light2D.enabled = wantsOn;
         }
     }
+
+    public void TurnOff() => light2D.enabled = false;
 
     private void Aim(Mouse mouse)
     {
