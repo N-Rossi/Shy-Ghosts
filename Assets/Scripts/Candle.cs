@@ -1,8 +1,8 @@
 using UnityEngine;
 
-// Pickup that refills the lantern battery. Deactivates itself when taken; room reset calls ResetCandle.
+// Pickup that refills the lantern battery. Deactivates itself when taken; room reset brings it back.
 [RequireComponent(typeof(Collider2D))]
-public class Candle : MonoBehaviour
+public class Candle : MonoBehaviour, IResettable
 {
     [Tooltip("Fraction of a full battery restored. 0.5 = half.")]
     [SerializeField, Range(0f, 1f)] private float refillAmount = 0.5f;
@@ -43,7 +43,7 @@ public class Candle : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void ResetCandle()
+    public void ResetState()
     {
         transform.position = startPosition;
         gameObject.SetActive(true);

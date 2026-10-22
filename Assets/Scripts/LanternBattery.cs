@@ -31,6 +31,12 @@ public class LanternBattery : MonoBehaviour
         if (IsEmpty) lantern.TurnOff();
     }
 
+    // Used by room reset to restore the charge the room started with.
+    public void SetCharge(float value)
+    {
+        Charge = Mathf.Clamp01(value);
+    }
+
     // amount is a fraction of a full battery: 0.5 = half.
     public void Refill(float amount)
     {
