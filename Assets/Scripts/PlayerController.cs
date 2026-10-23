@@ -17,6 +17,10 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private  bool jumpCutApplied;
 
+    // Read by PlayerAnimator.
+    public bool IsGrounded => isGrounded;
+    public float MoveInput => moveInput;
+
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -51,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGround()
     {
-        Vector2 size = new Vector2(box.size.x * 0.9f, box.bounds.size.y);
+        Vector2 size = new Vector2(box.bounds.size.x * 0.9f, box.bounds.size.y);
         RaycastHit2D hit = Physics2D.BoxCast(box.bounds.center, size, 0f, Vector2.down, tuning.groundCheckDistance, groundMask);
         isGrounded = hit.collider != null && body.linearVelocityY <= 0.01f;
 

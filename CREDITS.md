@@ -6,7 +6,7 @@ Running list of every external asset used in Shy Ghosts. Paste into the itch.io 
 
 - **Character Templates Pack** by Eris Esra — https://erisesra.itch.io/character-templates-pack
   License: custom. Allowed in commercial and non-commercial games. Free products MUST credit and link: "Original character template created by Eris Esra: https://erisesra.itch.io/character-templates-pack". Do not resell the template or modified versions as an asset pack.
-  Used for: player character base (trial, not yet in game).
+  Used for: player character (16x16 Idle, Run and Jump sheets in `Assets/Art/Characters/Player/`).
 
 ## Audio
 
