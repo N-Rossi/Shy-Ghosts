@@ -1360,6 +1360,9 @@ Tilemap:
   - serializedVersion: 2
     m_RefCount: 131
     m_Data: {fileID: 11400000, guid: 6bdb3fde793311049b1210cb43b5627d, type: 2}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 11400000, guid: e2517b600bbb76f4c8a26055addcff25, type: 2}
   m_TileSpriteArray:
   - serializedVersion: 2
     m_RefCount: 131
@@ -1392,7 +1395,7 @@ Tilemap:
   m_AnimationFrameRate: 1
   m_Color: {r: 0.65882355, g: 0.627451, b: 0.70980394, a: 1}
   m_Origin: {x: -12, y: -2, z: 0}
-  m_Size: {x: 43, y: 20, z: 1}
+  m_Size: {x: 56, y: 20, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -5859,7 +5862,7 @@ GameObject:
   - component: {fileID: 1267948652976062230}
   - component: {fileID: 3244763190258497378}
   m_Layer: 0
-  m_Name: Room_Test
+  m_Name: Room_1-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5903,6 +5906,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 8394166125686422819}
   useFixedStartCharge: 0
   fixedStartCharge: 1
+  batteryDrainMultiplier: 1
 --- !u!1001 &2988703781869796122
 PrefabInstance:
   m_ObjectHideFlags: 0

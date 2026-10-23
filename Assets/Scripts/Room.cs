@@ -11,12 +11,15 @@ public class Room : MonoBehaviour
     [Tooltip("Set the battery to a fixed charge on entering or resetting this room. Off = keep the charge you entered with.")]
     [SerializeField] private bool useFixedStartCharge;
     [SerializeField, Range(0f, 1f)] private float fixedStartCharge = 1f;
+    [Tooltip("Scales battery drain in this room. 1 = normal, 0 = lantern never drains (tutorial rooms).")]
+    [SerializeField, Min(0f)] private float batteryDrainMultiplier = 1f;
 
     public Rect Bounds => new Rect(transform.position, Size);
     public Vector2 CameraPosition => (Vector2)transform.position + CameraOffset;
     public Vector2 SpawnPosition => spawnPoint != null ? (Vector2)spawnPoint.position : Bounds.center;
     public bool UsesFixedStartCharge => useFixedStartCharge;
     public float FixedStartCharge => fixedStartCharge;
+    public float BatteryDrainMultiplier => batteryDrainMultiplier;
 
     public bool Contains(Vector2 point) => Bounds.Contains(point);
 
