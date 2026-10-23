@@ -77,21 +77,14 @@ public class GhostPlatform : MonoBehaviour
     private bool CheckLit()
     {
         if (lantern == null || !lantern.IsOn) return false;
-        if (IsPointInCone(bounds.ClosestPoint(lantern.Origin))) return true;
+        if (lantern.Illuminates(bounds.ClosestPoint(lantern.Origin))) return true;
 
         foreach (Vector2 point in samplePoints)
         {
-            if (IsPointInCone(point)) return true;
+            if (lantern.Illuminates(point)) return true;
         }
 
         return false;
-    }
-
-    private bool IsPointInCone(Vector2 point)
-    {
-        Vector2 toPoint = point - lantern.Origin;
-        if (toPoint.sqrMagnitude > lantern.Range * lantern.Range) return false;
-        return Vector2.Angle(lantern.Direction, toPoint) <= lantern.HalfAngle;
     }
 
     private void ApplyState()

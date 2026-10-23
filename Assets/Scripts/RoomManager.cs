@@ -56,6 +56,7 @@ public class RoomManager : MonoBehaviour
     {
         if (currentRoom == null) return;
 
+        Watcher.DespawnAll();
         currentRoom.ResetRoom();
         battery.SetCharge(roomStartCharge);
 
@@ -68,6 +69,9 @@ public class RoomManager : MonoBehaviour
 
     private void EnterRoom(Room room, bool instantCamera)
     {
+        // Every room starts fresh: no Watcher follows you in, and the room you left is restored.
+        Watcher.DespawnAll();
+        if (currentRoom != null) currentRoom.ResetRoom();
         currentRoom = room;
 
         if (room.UsesFixedStartCharge)

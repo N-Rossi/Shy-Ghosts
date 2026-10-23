@@ -9,12 +9,21 @@ public class Lantern : MonoBehaviour
     private Camera cam;
     private LanternBattery battery;
 
-    // Ghost platforms will read these next step.
     public bool IsOn => light2D.enabled;
     public Vector2 Origin => transform.position;
     public Vector2 Direction => transform.up;
     public float Range => light2D.pointLightOuterRadius;
     public float HalfAngle => light2D.pointLightOuterAngle * 0.5f;
+
+    // True if the lantern is on and the point is inside its cone. Shared by ghost platforms and Watchers.
+    public bool Illuminates(Vector2 point)
+    {
+        if (!IsOn) return false;
+
+        Vector2 toPoint = point - Origin;
+        if (toPoint.sqrMagnitude > Range * Range) return false;
+        return Vector2.Angle(Direction, toPoint) <= HalfAngle;
+    }
 
     private void Awake()
     {
