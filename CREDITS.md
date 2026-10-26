@@ -7,6 +7,12 @@ Running list of every external asset used in Shy Ghosts. Paste into the itch.io 
 - **Character Templates Pack** by Eris Esra — https://erisesra.itch.io/character-templates-pack
   License: custom. Allowed in commercial and non-commercial games. Free products MUST credit and link: "Original character template created by Eris Esra: https://erisesra.itch.io/character-templates-pack". Do not resell the template or modified versions as an asset pack.
   Used for: player character (16x16 Idle, Run and Jump sheets in `Assets/Art/Characters/Player/`).
+- **32x32 and 64x64 Pixel Art Textures** by 711studios — https://711studios.itch.io/15-pixel-art-textures
+  License: no formal license; the page says "Use them as you wish". Free asset. (Screenshot the page for your records before a Steam release.)
+  Used for: brick walls, wallpaper, metal and wood floors (`Assets/Art/Tiles/Textures/`).
+- **PIXEL ART MATERIALS PACK | 20 Pixel art textures** by cruelty_988 — https://cruelty-988.itch.io/pixel-art-materials-pack-20-pixel-art-textures
+  License: custom (LICENSE.txt). Personal and commercial use allowed, modification allowed; no reselling the textures as an asset pack.
+  Used for: wood planks, cracked stone (`Assets/Art/Tiles/Textures/`).
 
 - **Bangers** by Vernon Adams — https://fonts.google.com/specimen/Bangers
   License: SIL Open Font License 1.1 (OFL). Commercial use allowed.
