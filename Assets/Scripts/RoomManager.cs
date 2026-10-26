@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,12 @@ public class RoomManager : MonoBehaviour
     [SerializeField] private LanternBattery battery;
     [SerializeField] private RoomCamera roomCamera;
 
+    [Header("Editor testing only (ignored in builds)")]
+    [Tooltip("Start Play mode in this room instead of where the Player is placed. Leave empty for the normal start.")]
+    [SerializeField] private Room debugStartRoom;
+    [Tooltip("In the editor, [ and ] jump to the previous / next room.")]
+    [SerializeField] private bool debugRoomSkipKeys = true;
+
     private Room[] rooms;
     private Room currentRoom;
     private float roomStartCharge;
@@ -19,17 +26,31 @@ public class RoomManager : MonoBehaviour
     public Room CurrentRoom => currentRoom;
 
     // Fires whenever a room begins: on entering it and on every restart or death.
-    public event System.Action<Room> RoomStarted;
+    public event Action<Room> RoomStarted;
 
     private void Awake()
     {
         Instance = this;
         rooms = FindObjectsByType<Room>(FindObjectsSortMode.None);
+        // Play order: left to right, then bottom to top. Used by the editor room-skip keys.
+        Array.Sort(rooms, (a, b) =>
+        {
+            int byX = a.transform.position.x.CompareTo(b.transform.position.x);
+            return byX != 0 ? byX : a.transform.position.y.CompareTo(b.transform.position.y);
+        });
         lantern = battery.GetComponent<Lantern>();
     }
 
     private void Start()
     {
+#if UNITY_EDITOR
+        if (debugStartRoom != null)
+        {
+            MovePlayerTo(debugStartRoom.SpawnPosition);
+            EnterRoom(debugStartRoom, instantCamera: true);
+            return;
+        }
+#endif
         Room startRoom = FindRoomAt(player.position);
         if (startRoom == null)
         {
@@ -44,6 +65,14 @@ public class RoomManager : MonoBehaviour
         Keyboard kb = Keyboard.current;
         if (kb != null && kb.rKey.wasPressedThisFrame && !GameState.InputBlocked)
             RestartRoom();
+
+#if UNITY_EDITOR
+        if (debugRoomSkipKeys && kb != null && !GameState.InputBlocked)
+        {
+            if (kb.leftBracketKey.wasPressedThisFrame) SkipRoom(-1);
+            if (kb.rightBracketKey.wasPressedThisFrame) SkipRoom(+1);
+        }
+#endif
 
         // Outside every room (e.g. falling into a pit) keeps the current room.
         Room room = FindRoomAt(player.position);
@@ -64,12 +93,7 @@ public class RoomManager : MonoBehaviour
         Watcher.DespawnAll();
         currentRoom.ResetRoom();
         battery.SetCharge(roomStartCharge);
-
-        // Set both so the interpolated Rigidbody doesn't visibly slide to the spawn.
-        Vector2 spawn = currentRoom.SpawnPosition;
-        player.position = spawn;
-        player.transform.position = spawn;
-        player.linearVelocity = Vector2.zero;
+        MovePlayerTo(currentRoom.SpawnPosition);
 
         RoomStarted?.Invoke(currentRoom);
     }
@@ -91,6 +115,28 @@ public class RoomManager : MonoBehaviour
 
         RoomStarted?.Invoke(room);
     }
+
+    private void MovePlayerTo(Vector2 position)
+    {
+        // Set both so the interpolated Rigidbody doesn't visibly slide there.
+        player.position = position;
+        player.transform.position = position;
+        player.linearVelocity = Vector2.zero;
+    }
+
+#if UNITY_EDITOR
+    private void SkipRoom(int step)
+    {
+        int index = Array.IndexOf(rooms, currentRoom);
+        int target = Mathf.Clamp(index + step, 0, rooms.Length - 1);
+        if (target == index) return;
+
+        // Skipping ahead with an empty battery would strand you, so top it up.
+        battery.SetCharge(1f);
+        MovePlayerTo(rooms[target].SpawnPosition);
+        EnterRoom(rooms[target], instantCamera: true);
+    }
+#endif
 
     private Room FindRoomAt(Vector2 point)
     {
