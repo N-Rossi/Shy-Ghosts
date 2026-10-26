@@ -14,12 +14,29 @@ public class Room : MonoBehaviour
     [Tooltip("Scales battery drain in this room. 1 = normal, 0 = lantern never drains (tutorial rooms).")]
     [SerializeField, Min(0f)] private float batteryDrainMultiplier = 1f;
 
+    [Header("Storm")]
+    [Tooltip("Lightning flashes light the whole room on a timer.")]
+    [SerializeField] private bool hasStorm;
+    [Tooltip("Seconds from one flash to the next. Keep it steady so players can learn the rhythm.")]
+    [SerializeField, Min(0.5f)] private float flashInterval = 3f;
+    [Tooltip("Random +/- seconds added to each interval. 0 = perfectly regular.")]
+    [SerializeField, Min(0f)] private float flashJitter = 0f;
+    [Tooltip("Seconds each flash counts as light (ghost platforms visible and not solid).")]
+    [SerializeField, Min(0.05f)] private float flashDuration = 0.25f;
+    [Tooltip("Lantern can't be turned on in this room.")]
+    [SerializeField] private bool lanternBroken;
+
     public Rect Bounds => new Rect(transform.position, Size);
     public Vector2 CameraPosition => (Vector2)transform.position + CameraOffset;
     public Vector2 SpawnPosition => spawnPoint != null ? (Vector2)spawnPoint.position : Bounds.center;
     public bool UsesFixedStartCharge => useFixedStartCharge;
     public float FixedStartCharge => fixedStartCharge;
     public float BatteryDrainMultiplier => batteryDrainMultiplier;
+    public bool HasStorm => hasStorm;
+    public float FlashInterval => flashInterval;
+    public float FlashJitter => flashJitter;
+    public float FlashDuration => flashDuration;
+    public bool LanternBroken => lanternBroken;
 
     public bool Contains(Vector2 point) => Bounds.Contains(point);
 
@@ -34,7 +51,8 @@ public class Room : MonoBehaviour
     private void OnDrawGizmos()
     {
         Rect bounds = Bounds;
-        Gizmos.color = Color.yellow;
+        // Cyan outline marks storm rooms.
+        Gizmos.color = hasStorm ? Color.cyan : Color.yellow;
         Gizmos.DrawWireCube(bounds.center, bounds.size);
 
         Gizmos.color = spawnPoint != null ? Color.green : Color.red;

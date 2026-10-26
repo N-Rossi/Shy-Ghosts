@@ -31,6 +31,14 @@ public class PlayerController : MonoBehaviour
     { 
         Keyboard keyboard = Keyboard.current;
         if (keyboard == null) return;
+        if (GameState.InputBlocked)
+        {
+            // Drop held input so nothing fires the moment the game resumes.
+            moveInput = 0f;
+            jumpHeld = false;
+            jumpBufferTimer = 0f;
+            return;
+        }
 
         float input = 0f;
         if (keyboard.aKey.isPressed) input -=1f;

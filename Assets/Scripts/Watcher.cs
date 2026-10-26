@@ -51,7 +51,7 @@ public class Watcher : MonoBehaviour
         Vector2 current = transform.position;
         Vector2 playerPos = player.position;
 
-        if (lantern.Illuminates(current))
+        if (Lightning.IsFlashing || lantern.Illuminates(current))
         {
             Vector2 away = (current - playerPos).normalized;
             transform.position = current + away * (retreatSpeed * Time.deltaTime);

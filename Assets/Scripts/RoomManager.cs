@@ -13,14 +13,19 @@ public class RoomManager : MonoBehaviour
     private Room[] rooms;
     private Room currentRoom;
     private float roomStartCharge;
+    private Lantern lantern;
 
     public int Deaths { get; private set; }
     public Room CurrentRoom => currentRoom;
+
+    // Fires whenever a room begins: on entering it and on every restart or death.
+    public event System.Action<Room> RoomStarted;
 
     private void Awake()
     {
         Instance = this;
         rooms = FindObjectsByType<Room>(FindObjectsSortMode.None);
+        lantern = battery.GetComponent<Lantern>();
     }
 
     private void Start()
@@ -37,7 +42,7 @@ public class RoomManager : MonoBehaviour
     private void Update()
     {
         Keyboard kb = Keyboard.current;
-        if (kb != null && kb.rKey.wasPressedThisFrame)
+        if (kb != null && kb.rKey.wasPressedThisFrame && !GameState.InputBlocked)
             RestartRoom();
 
         // Outside every room (e.g. falling into a pit) keeps the current room.
@@ -65,6 +70,8 @@ public class RoomManager : MonoBehaviour
         player.position = spawn;
         player.transform.position = spawn;
         player.linearVelocity = Vector2.zero;
+
+        RoomStarted?.Invoke(currentRoom);
     }
 
     private void EnterRoom(Room room, bool instantCamera)
@@ -79,7 +86,10 @@ public class RoomManager : MonoBehaviour
         roomStartCharge = battery.Charge;
 
         room.ResetRoom();
+        lantern.SetBroken(room.LanternBroken);
         roomCamera.MoveTo(room.CameraPosition, instantCamera);
+
+        RoomStarted?.Invoke(room);
     }
 
     private Room FindRoomAt(Vector2 point)

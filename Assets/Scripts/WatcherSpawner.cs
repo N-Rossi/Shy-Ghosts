@@ -31,7 +31,7 @@ public class WatcherSpawner : MonoBehaviour, IResettable
         if (watcher.gameObject.activeSelf) return;
 
         bool inThisRoom = RoomManager.Instance != null && RoomManager.Instance.CurrentRoom == room;
-        if (!inThisRoom || lantern.IsOn)
+        if (!inThisRoom || lantern.IsOn || Lightning.IsFlashing)
         {
             darkTimer = 0f;
             return;

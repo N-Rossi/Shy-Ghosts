@@ -10,6 +10,8 @@ public class Lantern : MonoBehaviour
     private LanternBattery battery;
 
     public bool IsOn => light2D.enabled;
+    // Set per room by RoomManager (storm rooms). A broken lantern stays off and ignores right-click.
+    public bool IsBroken { get; private set; }
     public Vector2 Origin => transform.position;
     public Vector2 Direction => transform.up;
     public float Range => light2D.pointLightOuterRadius;
@@ -35,10 +37,10 @@ public class Lantern : MonoBehaviour
     private void Update()
     {
         Mouse mouse = Mouse.current;
-        if (mouse == null) return;
+        if (mouse == null || GameState.InputBlocked) return;
 
         Aim(mouse);
-        if (mouse.rightButton.wasPressedThisFrame)
+        if (mouse.rightButton.wasPressedThisFrame && !IsBroken)
         {
             bool wantsOn = !light2D.enabled;
             // A dead battery keeps the lantern off until a candle refills it.
@@ -48,6 +50,12 @@ public class Lantern : MonoBehaviour
     }
 
     public void TurnOff() => light2D.enabled = false;
+
+    public void SetBroken(bool broken)
+    {
+        IsBroken = broken;
+        if (broken) TurnOff();
+    }
 
     private void Aim(Mouse mouse)
     {

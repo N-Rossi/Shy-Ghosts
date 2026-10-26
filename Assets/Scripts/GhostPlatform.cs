@@ -76,6 +76,7 @@ public class GhostPlatform : MonoBehaviour
 
     private bool CheckLit()
     {
+        if (Lightning.IsFlashing) return true;
         if (lantern == null || !lantern.IsOn) return false;
         if (lantern.Illuminates(bounds.ClosestPoint(lantern.Origin))) return true;
 
@@ -97,7 +98,8 @@ public class GhostPlatform : MonoBehaviour
 
     private void Flinch()
     {
-        if (audioSource != null && shriekClip != null)
+        // During lightning every platform flinches at once; a shriek from each would be a wall of noise.
+        if (audioSource != null && shriekClip != null && !Lightning.IsFlashing)
             audioSource.PlayOneShot(shriekClip);
 
         StopAllCoroutines();

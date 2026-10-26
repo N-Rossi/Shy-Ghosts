@@ -43,6 +43,8 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Update()
     {
+        if (GameState.InputBlocked) return;
+
         Vector2 velocity = body.linearVelocity;
         bool standingStill = controller.IsGrounded && Mathf.Abs(velocity.x) <= runThreshold;
         stillTimer = standingStill ? stillTimer + Time.deltaTime : 0f;
