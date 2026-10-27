@@ -10,6 +10,7 @@ public class TileSwapWindow : EditorWindow
 
     private TileBase from;
     private TileBase to;
+    private string onlyTilemapNamed = "";
 
     [MenuItem("Tools/Shy Ghosts/Swap Tiles In All Rooms")]
     private static void Open() => GetWindow<TileSwapWindow>("Swap Tiles");
@@ -19,6 +20,7 @@ public class TileSwapWindow : EditorWindow
         EditorGUILayout.HelpBox($"Replaces every '{(from ? from.name : "from")}' tile with '{(to ? to.name : "to")}' in all prefabs under {RoomsFolder}. Commit first so you can undo it with git.", MessageType.Info);
         from = (TileBase)EditorGUILayout.ObjectField("Replace", from, typeof(TileBase), false);
         to = (TileBase)EditorGUILayout.ObjectField("With", to, typeof(TileBase), false);
+        onlyTilemapNamed = EditorGUILayout.TextField(new GUIContent("Only tilemaps named", "e.g. Solid or Background. Empty = every tilemap."), onlyTilemapNamed);
 
         using (new EditorGUI.DisabledScope(from == null || to == null || from == to))
         {
@@ -37,6 +39,7 @@ public class TileSwapWindow : EditorWindow
 
             foreach (Tilemap tilemap in root.GetComponentsInChildren<Tilemap>(true))
             {
+                if (onlyTilemapNamed.Length > 0 && tilemap.name != onlyTilemapNamed) continue;
                 if (!tilemap.ContainsTile(from)) continue;
                 tilemap.SwapTile(from, to);
                 changed = true;

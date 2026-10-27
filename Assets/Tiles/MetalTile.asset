@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbde31e02749e8f4195916349b521a1e, type: 3}
+  m_Name: MetalTile
+  m_EditorClassIdentifier: Assembly-CSharp::PatternTile
+  size: {x: 2, y: 2}
+  sprites:
+  - {fileID: -1120691613, guid: b975e7adcaa48234db076da6aedd026e, type: 3}
+  - {fileID: -1080771723, guid: b975e7adcaa48234db076da6aedd026e, type: 3}
+  - {fileID: 1144445632, guid: b975e7adcaa48234db076da6aedd026e, type: 3}
+  - {fileID: -820452990, guid: b975e7adcaa48234db076da6aedd026e, type: 3}
+  alternateSprites:
+  - {fileID: 783425714, guid: 245cd465d95981246b143de9b6bc7085, type: 3}
+  - {fileID: -218120067, guid: 245cd465d95981246b143de9b6bc7085, type: 3}
+  - {fileID: -474549615, guid: 245cd465d95981246b143de9b6bc7085, type: 3}
+  - {fileID: 291286882, guid: 245cd465d95981246b143de9b6bc7085, type: 3}
+  alternateChance: 0.15
+  colliderType: 2
