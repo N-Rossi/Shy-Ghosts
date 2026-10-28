@@ -17,9 +17,15 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private  bool jumpCutApplied;
 
+    private float fastestFall;        // most negative y velocity since leaving the ground
+
     // Read by PlayerAnimator.
     public bool IsGrounded => isGrounded;
     public float MoveInput => moveInput;
+
+    // Read by PlayerFeedback. Landed passes how fast you were falling (units/sec, positive).
+    public event System.Action Jumped;
+    public event System.Action<float> Landed;
 
     private void Awake()
     {
@@ -65,7 +71,17 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 size = new Vector2(box.bounds.size.x * 0.9f, box.bounds.size.y);
         RaycastHit2D hit = Physics2D.BoxCast(box.bounds.center, size, 0f, Vector2.down, tuning.groundCheckDistance, groundMask);
+        bool wasGrounded = isGrounded;
         isGrounded = hit.collider != null && body.linearVelocityY <= 0.01f;
+
+        // By the time we're grounded the collision has already zeroed the velocity,
+        // so remember the fastest fall while airborne and report that.
+        if (!isGrounded) fastestFall = Mathf.Min(fastestFall, body.linearVelocityY);
+        if (isGrounded && !wasGrounded)
+        {
+            Landed?.Invoke(-fastestFall);
+            fastestFall = 0f;
+        }
 
         if (isGrounded)
         {
@@ -103,6 +119,7 @@ public class PlayerController : MonoBehaviour
             jumpBufferTimer = 0f;
             coyoteTimer = 0f;
             jumpCutApplied = false;
+            Jumped?.Invoke();
         }
 
         if (!jumpCutApplied && v.y > 0f && !jumpHeld)

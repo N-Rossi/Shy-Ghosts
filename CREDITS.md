@@ -18,7 +18,17 @@ Running list of every external asset used in Shy Ghosts. Paste into the itch.io 
   License: SIL Open Font License 1.1 (OFL). Commercial use allowed.
   Used for: UI text (title, menus, end screen), via TextMeshPro's "Bangers SDF" asset.
 
+- **Pixel Space Background Generator** by Deep-Fold — https://deep-fold.itch.io/space-background-generator
+  License: images made with it may be used in games; don't distribute them on their own or in asset packs. Credit appreciated, not required. Page states no generative AI was used.
+  Used for: night sky seen through the windows.
+
 ## Audio
+
+- **Music Loop Bundle** by Abstraction
+  itch.io: https://tallbeard.itch.io/music-loop-bundle
+  Homepage: https://abstractionmusic.com/
+  License: Creative Commons 0 (CC0). Commercial use allowed; credit not required, given anyway.
+  Used for: background music (track: TBD).
 
 - **Heartbeat loop** by .name — https://freesound.org/s/418866/
   License: Creative Commons Attribution 4.0 (CC BY 4.0). Commercial use allowed; credit required.
@@ -33,6 +43,9 @@ Running list of every external asset used in Shy Ghosts. Paste into the itch.io 
 - **Thunder6.wav** by OneSoundToRuleThemAll — https://freesound.org/s/238807/
   License: Creative Commons Attribution 4.0 (CC BY 4.0). Commercial use allowed; credit required.
   Used for: thunder after lightning flashes in storm rooms (`Assets/Audio/Thunder_1.wav`).
+- **Impact Sounds (1.0)** by Kenney (www.kenney.nl) — https://kenney.nl/assets/impact-sounds
+  License: Creative Commons 0 (CC0). Free for personal, educational and commercial use; credit not required, given anyway.
+  Used for: jump, landing and footstep sounds.
 
 ## Tools
 
