@@ -76,22 +76,16 @@ public class GhostPlatform : MonoBehaviour
 
     private bool CheckLit()
     {
+        if (Lightning.IsFlashing) return true;
         if (lantern == null || !lantern.IsOn) return false;
-        if (IsPointInCone(bounds.ClosestPoint(lantern.Origin))) return true;
+        if (lantern.Illuminates(bounds.ClosestPoint(lantern.Origin))) return true;
 
         foreach (Vector2 point in samplePoints)
         {
-            if (IsPointInCone(point)) return true;
+            if (lantern.Illuminates(point)) return true;
         }
 
         return false;
-    }
-
-    private bool IsPointInCone(Vector2 point)
-    {
-        Vector2 toPoint = point - lantern.Origin;
-        if (toPoint.sqrMagnitude > lantern.Range * lantern.Range) return false;
-        return Vector2.Angle(lantern.Direction, toPoint) <= lantern.HalfAngle;
     }
 
     private void ApplyState()
@@ -104,7 +98,8 @@ public class GhostPlatform : MonoBehaviour
 
     private void Flinch()
     {
-        if (audioSource != null && shriekClip != null)
+        // During lightning every platform flinches at once; a shriek from each would be a wall of noise.
+        if (audioSource != null && shriekClip != null && !Lightning.IsFlashing)
             audioSource.PlayOneShot(shriekClip);
 
         StopAllCoroutines();

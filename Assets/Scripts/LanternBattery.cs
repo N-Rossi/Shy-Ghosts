@@ -27,8 +27,21 @@ public class LanternBattery : MonoBehaviour
     {
         if (!lantern.IsOn) return;
 
-        Charge = Mathf.Max(0f, Charge - drainPerSecond * Time.deltaTime);
+        Charge = Mathf.Max(0f, Charge - drainPerSecond * RoomDrainMultiplier() * Time.deltaTime);
         if (IsEmpty) lantern.TurnOff();
+    }
+
+    private static float RoomDrainMultiplier()
+    {
+        RoomManager manager = RoomManager.Instance;
+        if (manager == null || manager.CurrentRoom == null) return 1f;
+        return manager.CurrentRoom.BatteryDrainMultiplier;
+    }
+
+    // Used by room reset to restore the charge the room started with.
+    public void SetCharge(float value)
+    {
+        Charge = Mathf.Clamp01(value);
     }
 
     // amount is a fraction of a full battery: 0.5 = half.
